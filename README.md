@@ -36,7 +36,7 @@ There are two ways to interact with the chat backend:
 
 ### 1. REST API Endpoints
 
-#### GET /chat/messages
+#### GET http://46.101.114.148:3000/chat/messages
 Retrieve chat messages
 
 **Response Example:**
@@ -55,7 +55,7 @@ Retrieve chat messages
 ]
 ```
 
-#### POST /chat/message
+#### POST http://46.101.114.148:3000/chat/message
 Send a new chat message
 
 **Request Example:**
@@ -66,6 +66,13 @@ Send a new chat message
   "message": "my message 2"
 }
 ```
+
+#### Postman Collection
+For easy testing of HTTP endpoints, you can import the Postman collection:
+- **File:** `postman/Chat - HTTP.postman_collection.json`
+- **Import:** Open Postman → Import → Select the collection file
+
+The collection includes pre-configured requests for both endpoints with example data.
 
 ### 2. Socket.IO Connection
 

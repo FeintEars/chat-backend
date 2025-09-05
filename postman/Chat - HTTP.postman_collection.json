@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "6b28eba1-c043-480f-9172-d18714c40b1b",
+		"name": "Chat - HTTP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11425675",
+		"_collection_link": "https://solar-spaceship-792237.postman.co/workspace/My-Workspace~d4467c56-8613-4c32-8c1e-adffa0523742/collection/11425675-6b28eba1-c043-480f-9172-d18714c40b1b?action=share&source=collection_link&creator=11425675"
+	},
+	"item": [
+		{
+			"name": "/chat/messages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/chat/messages",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"chat",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/chat/message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"message-id-1\",\n    \"username\": \"Bill Gates\",\n    \"message\": \"my message\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/chat/message",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"chat",
+						"message"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": ""
+		}
+	]
+}
