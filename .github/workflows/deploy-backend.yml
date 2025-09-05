@@ -1,0 +1,81 @@
+name: Deploy Chat Backend to DigitalOcean
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**'
+      - '.github/workflows/deploy-backend.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**'
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install dependencies
+      run: npm ci
+        
+    - name: Run tests
+      run: npm run test
+        
+    - name: Build application
+      run: npm run build
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: dist/
+        retention-days: 1
+
+  deploy:
+    name: Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-files
+        path: dist/
+        
+    - name: Deploy to DigitalOcean
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ vars.DROPLET_HOST }}
+        username: ${{ secrets.DROPLET_USERNAME }}
+        key: ${{ secrets.DROPLET_SSH_KEY }}
+        script: |
+          # Navigate to project directory
+          cd ${{ vars.PROJECT_PATH }}
+          
+          # Pull latest changes
+          git pull origin main
+          
+          # Install ALL dependencies (including dev dependencies for build)
+          npm ci
+          
+          # Build the application using npm script (which uses local nest)
+          npm run build
+          
+          # Restart PM2 process (or start if it doesn't exist)
+          pm2 restart chat-backend --update-env
+          
+          # Save PM2 configuration
+          pm2 save
+          
+          echo "✅ Chat backend deployed successfully!"
+          echo "🚀 Application is running on port 3000"
