@@ -36,14 +36,14 @@ There are two ways to interact with the chat backend:
 
 ### 1. REST API Endpoints
 
-- **GET /chat/messages** - Retrieve chat messages
-- **POST /chat/message** - Send a new chat message
+- **GET http://46.101.114.148/chat/messages** - Retrieve chat messages
+- **POST http://46.101.114.148/chat/message** - Send a new chat message
 
 ### 2. Socket.IO Connection
 
 Connect to the live server using Socket.IO:
 ```
-http://${{ vars.DROPLET_HOST }}:3000/
+http://46.101.114.148:3000/
 ```
 
 This provides real-time bidirectional communication for instant messaging.
