@@ -6,9 +6,11 @@ export class ChatService {
   private messages: MessageDto[] = [];
 
   addMessage(message: MessageDto) {
-    this.messages.push(message);
-    while (this.messages.length > 10) {
-      this.messages.shift();
+    if (message.id && message.username && message.username) {
+      this.messages.push(message);
+      while (this.messages.length > 10) {
+        this.messages.shift();
+      }
     }
   }
 

@@ -35,6 +35,8 @@ export class ChatGateway {
   }
 
   emitMessage(message: MessageDto) {
-    this.server.emit('newMessage', message);
+    if (message.id && message.username && message.username) {
+      this.server.emit('newMessage', message);
+    }
   }
 }
