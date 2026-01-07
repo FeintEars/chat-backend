@@ -5,6 +5,7 @@ import {
   ConnectedSocket,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { Inject, forwardRef } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { MessageDto } from './dto/message.dto';
@@ -18,7 +19,10 @@ export class ChatGateway {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    @Inject(forwardRef(() => ChatService))
+    private readonly chatService: ChatService,
+  ) {}
 
   @SubscribeMessage('sendMessage')
   sendMessage(@MessageBody() message: MessageDto) {
@@ -35,7 +39,7 @@ export class ChatGateway {
   }
 
   emitMessage(message: MessageDto) {
-    if (message.id && message.username && message.username) {
+    if (message.id && message.username && message.message) {
       this.server.emit('newMessage', message);
     }
   }
